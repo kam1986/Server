@@ -46,7 +46,7 @@ type 'T WorkForce =
     interface IDisposable with
         member W.Dispose() =
             Array.iter (fun _ -> 
-                let mutable cur = W.channel.Write Off
+                let mutable cur = Some Off
                 let mutable writing = true
                 // send a shutdown message to the workforce
                 // since we iterate over the workforce it will always send

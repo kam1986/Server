@@ -55,3 +55,4 @@ C:\Users\KAM\OneDrive\Skrivebord\F#\Server\bin\Debug\netcoreapp5.0\Microsoft.Ext
 C:\Users\KAM\OneDrive\Skrivebord\F#\Server\bin\Debug\netcoreapp5.0\Microsoft.Extensions.Primitives.dll
 C:\Users\KAM\OneDrive\Skrivebord\F#\Server\bin\Debug\netcoreapp5.0\Microsoft.Net.Http.Headers.dll
 C:\Users\KAM\OneDrive\Skrivebord\F#\Server\bin\Debug\netcoreapp5.0\Microsoft.Net.Http.Server.dll
+C:\Users\KAM\OneDrive\Skrivebord\F#\Server\bin\Debug\netcoreapp5.0\FSharp.Data.dll

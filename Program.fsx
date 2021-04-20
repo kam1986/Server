@@ -13,27 +13,61 @@ open Handlers
 // there is no caching of data, but that could easily be implemented.
 [<EntryPoint>]
 let main argv =
+
+    match argv with
+    | [| "proxi"; location; root |] -> 
     // when released this needs to be set as argument
-    let location, root = "http://localhost:8080", "https://netto.dk/"
+        use client = 
+            let c = new HttpClient()
+            c.BaseAddress <- Uri root
+            c
 
-    let client = 
-        let c = new HttpClient()
-        c.BaseAddress <- Uri root
-        c
+        let settings =
+            let s = WebListenerSettings()
+            s.UrlPrefixes.Add(location)
+            s
 
-    let settings =
-        let s = WebListenerSettings()
-        s.UrlPrefixes.Add(location)
-        s
+        using 
+            (new AsyncWebServer(settings))
+            (fun server ->
+                printfn "the server is running"
+                printfn "root %s" root
+                server.Run (proxiHandler client)
+        )
+        
 
-    using 
-        (new WebServer(settings, 2))
-        (fun server ->
-            printfn "the server is running"
-            printfn "root %s" root
-            server.Run (proxiHandler client)
-    )
-    
-    client.Dispose()
+    |  [| "main"; location; root |] ->
+        let settings =
+            let s = WebListenerSettings()
+            s.UrlPrefixes.Add(location)
+            s
 
-    0 // return an integer exit code
+        using 
+            (new AsyncWebServer(settings))
+            (fun server ->
+                printfn "the server is running"
+                printfn "root %s" root
+                server.Run (requestHandler root)
+        )
+        
+    | _ ->
+        let location, root = "http://localhost:8080", "https://netto.dk/"
+        use client = 
+            let c = new HttpClient()
+            c.BaseAddress <- Uri root
+            c
+
+        let settings =
+            let s = WebListenerSettings()
+            s.UrlPrefixes.Add(location)
+            s
+
+        using 
+            (new AsyncWebServer(settings))
+            (fun server ->
+                printfn "the server is running"
+                printfn "root %s" root
+                server.Run (proxiHandler client)
+        )
+
+    0
